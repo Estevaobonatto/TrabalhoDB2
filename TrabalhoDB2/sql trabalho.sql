@@ -89,3 +89,64 @@ INSERT INTO horario (id, data_agendamento, horario, cliente_id, servico_id, func
 INSERT INTO horario (id, data_agendamento, horario, cliente_id, servico_id, funcionario_id) VALUES (8, '2024-07-07', '17:00:00', 3, 4, 3);
 INSERT INTO horario (id, data_agendamento, horario, cliente_id, servico_id, funcionario_id) VALUES (9, '2024-07-08', '18:00:00', 4, 5, 4);
 INSERT INTO horario (id, data_agendamento, horario, cliente_id, servico_id, funcionario_id) VALUES (10, '2024-07-09', '19:00:00', 5, 1, 5);
+
+-- Stored Procedures
+
+-- Stored Procedure para Listar Clientes por Cidade
+CREATE PROCEDURE ListarClientesPorCidade @CidadeId INT
+AS
+BEGIN
+    SELECT * FROM cliente WHERE cidade_id = @CidadeId;
+END
+GO
+
+-- Stored Procedure para Adicionar Novo Serviço
+CREATE PROCEDURE AdicionarServico @Nome VARCHAR(255), @Preco DECIMAL(10, 2), @Duracao TIME
+AS
+BEGIN
+    INSERT INTO servico (nome, preco, duracao) VALUES (@Nome, @Preco, @Duracao);
+END
+GO
+
+-- Stored Procedure para Atualizar Preço de Serviço
+CREATE PROCEDURE AtualizarPrecoServico @ServicoId INT, @NovoPreco DECIMAL(10, 2)
+AS
+BEGIN
+    UPDATE servico SET preco = @NovoPreco WHERE id = @ServicoId;
+END
+GO
+
+-- Trigger para Calcular Idade do Cliente após Inserção
+CREATE TRIGGER CalcularIdadeCliente
+ON cliente
+AFTER INSERT
+AS
+BEGIN
+    DECLARE @DataNascimento DATE, @ClienteId INT, @Idade INT;
+    
+    SELECT @ClienteId = id, @DataNascimento = data_nascimento FROM inserted;
+    
+    SET @Idade = FLOOR(DATEDIFF(DAY, @DataNascimento, GETDATE()) / 365.25);
+    
+    UPDATE cliente
+    SET idade = @Idade
+    WHERE id = @ClienteId;
+END
+GO
+
+-- Trigger para Atualizar Disponibilidade do Funcionário após Inserção de Horário
+CREATE TRIGGER AtualizarDisponibilidadeFuncionario
+ON horario
+AFTER INSERT
+AS
+BEGIN
+    DECLARE @FuncionarioId INT, @DataAgendamento DATE, @Horario TIME;
+    
+    SELECT @FuncionarioId = funcionario_id, @DataAgendamento = data_agendamento, @Horario = horario FROM inserted;
+    
+    -- Supõe-se que exista um campo 'disponibilidade' na tabela funcionario para indicar a disponibilidade
+    UPDATE funcionario
+    SET disponibilidade = 'Indisponível'
+    WHERE id = @FuncionarioId;
+END
+GO
