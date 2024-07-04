@@ -58,18 +58,6 @@ Esta tela permite que os usuários agendem horários para os clientes. Os usuár
 git clone https://github.com/seu-usuario/seu-repositorio.git
 ```
 
-### Abrir o Arquivo da Solução
-
-Abra o arquivo da solução no Visual Studio para visualizar e editar o código-fonte.
-
-### Compilar e Executar a Aplicação
-
-Compile a solução e execute a aplicação. Navegue pelas várias telas para gerenciar clientes, horários, funcionários e produtos.
-
-## Contribuindo
-
-Contribuições são bem-vindas! Por favor, envie um pull request ou abra uma issue para discutir suas alterações.
-
 ## Licença
 
 Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.
