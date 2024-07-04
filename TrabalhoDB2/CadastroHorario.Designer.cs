@@ -30,18 +30,14 @@
         {
             this.components = new System.ComponentModel.Container();
             this.btnConsultar = new System.Windows.Forms.Button();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataagendamentoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.horarioDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dtpHorario = new System.Windows.Forms.DateTimePicker();
+            this.dgvHorarios = new System.Windows.Forms.DataGridView();
             this.horarioBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.salaoAppBanco = new TrabalhoDB2.SalaoAppBanco();
             this.label5 = new System.Windows.Forms.Label();
-            this.dtpHorarios = new System.Windows.Forms.DateTimePicker();
+            this.dtpDataAgendamento = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
             this.lbHorario = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtId = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -53,9 +49,16 @@
             this.cbFuncionario = new System.Windows.Forms.ComboBox();
             this.cbProduto = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataagendamentoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.horarioDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cbCliente = new System.Windows.Forms.ComboBox();
+            this.clienteBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.clienteTableAdapter = new TrabalhoDB2.SalaoAppBancoTableAdapters.clienteTableAdapter();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHorarios)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.horarioBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.salaoAppBanco)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.clienteBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // btnConsultar
@@ -70,52 +73,34 @@
             this.btnConsultar.UseVisualStyleBackColor = true;
             this.btnConsultar.Click += new System.EventHandler(this.btnConsultar_Click);
             // 
-            // dateTimePicker1
+            // dtpHorario
             // 
-            this.dateTimePicker1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker1.Location = new System.Drawing.Point(262, 176);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(2);
-            this.dateTimePicker1.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(225, 20);
-            this.dateTimePicker1.TabIndex = 56;
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            this.dtpHorario.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.dtpHorario.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtpHorario.Location = new System.Drawing.Point(262, 176);
+            this.dtpHorario.Margin = new System.Windows.Forms.Padding(2);
+            this.dtpHorario.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            this.dtpHorario.Name = "dtpHorario";
+            this.dtpHorario.Size = new System.Drawing.Size(225, 20);
+            this.dtpHorario.TabIndex = 56;
+            this.dtpHorario.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
-            // dataGridView1
+            // dgvHorarios
             // 
-            this.dataGridView1.AutoGenerateColumns = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvHorarios.AutoGenerateColumns = false;
+            this.dgvHorarios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvHorarios.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.idDataGridViewTextBoxColumn,
             this.dataagendamentoDataGridViewTextBoxColumn,
             this.horarioDataGridViewTextBoxColumn});
-            this.dataGridView1.DataSource = this.horarioBindingSource;
-            this.dataGridView1.Location = new System.Drawing.Point(11, 292);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(808, 254);
-            this.dataGridView1.TabIndex = 55;
-            // 
-            // idDataGridViewTextBoxColumn
-            // 
-            this.idDataGridViewTextBoxColumn.DataPropertyName = "id";
-            this.idDataGridViewTextBoxColumn.HeaderText = "id";
-            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            // 
-            // dataagendamentoDataGridViewTextBoxColumn
-            // 
-            this.dataagendamentoDataGridViewTextBoxColumn.DataPropertyName = "data_agendamento";
-            this.dataagendamentoDataGridViewTextBoxColumn.HeaderText = "data_agendamento";
-            this.dataagendamentoDataGridViewTextBoxColumn.Name = "dataagendamentoDataGridViewTextBoxColumn";
-            // 
-            // horarioDataGridViewTextBoxColumn
-            // 
-            this.horarioDataGridViewTextBoxColumn.DataPropertyName = "horario";
-            this.horarioDataGridViewTextBoxColumn.HeaderText = "horario";
-            this.horarioDataGridViewTextBoxColumn.Name = "horarioDataGridViewTextBoxColumn";
+            this.dgvHorarios.DataSource = this.horarioBindingSource;
+            this.dgvHorarios.Location = new System.Drawing.Point(11, 292);
+            this.dgvHorarios.Margin = new System.Windows.Forms.Padding(2);
+            this.dgvHorarios.Name = "dgvHorarios";
+            this.dgvHorarios.RowHeadersWidth = 51;
+            this.dgvHorarios.RowTemplate.Height = 24;
+            this.dgvHorarios.Size = new System.Drawing.Size(808, 254);
+            this.dgvHorarios.TabIndex = 55;
             // 
             // horarioBindingSource
             // 
@@ -138,17 +123,17 @@
             this.label5.TabIndex = 54;
             this.label5.Text = "CADASTRO DE HORARIOS";
             // 
-            // dtpHorarios
+            // dtpDataAgendamento
             // 
-            this.dtpHorarios.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.dtpHorarios.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpHorarios.Location = new System.Drawing.Point(262, 114);
-            this.dtpHorarios.Margin = new System.Windows.Forms.Padding(2);
-            this.dtpHorarios.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
-            this.dtpHorarios.Name = "dtpHorarios";
-            this.dtpHorarios.Size = new System.Drawing.Size(225, 20);
-            this.dtpHorarios.TabIndex = 53;
-            this.dtpHorarios.ValueChanged += new System.EventHandler(this.dtpHorarios_ValueChanged);
+            this.dtpDataAgendamento.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.dtpDataAgendamento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpDataAgendamento.Location = new System.Drawing.Point(262, 114);
+            this.dtpDataAgendamento.Margin = new System.Windows.Forms.Padding(2);
+            this.dtpDataAgendamento.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            this.dtpDataAgendamento.Name = "dtpDataAgendamento";
+            this.dtpDataAgendamento.Size = new System.Drawing.Size(225, 20);
+            this.dtpDataAgendamento.TabIndex = 53;
+            this.dtpDataAgendamento.ValueChanged += new System.EventHandler(this.dtpHorarios_ValueChanged);
             // 
             // label4
             // 
@@ -169,15 +154,6 @@
             this.lbHorario.Size = new System.Drawing.Size(41, 13);
             this.lbHorario.TabIndex = 51;
             this.lbHorario.Text = "Horario";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(39, 176);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(164, 20);
-            this.textBox1.TabIndex = 50;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label2
             // 
@@ -293,11 +269,50 @@
             this.label6.TabIndex = 63;
             this.label6.Text = "Produto";
             // 
+            // idDataGridViewTextBoxColumn
+            // 
+            this.idDataGridViewTextBoxColumn.DataPropertyName = "id";
+            this.idDataGridViewTextBoxColumn.HeaderText = "ID";
+            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            // 
+            // dataagendamentoDataGridViewTextBoxColumn
+            // 
+            this.dataagendamentoDataGridViewTextBoxColumn.DataPropertyName = "data_agendamento";
+            this.dataagendamentoDataGridViewTextBoxColumn.HeaderText = "DATA AGENDAMENTO";
+            this.dataagendamentoDataGridViewTextBoxColumn.Name = "dataagendamentoDataGridViewTextBoxColumn";
+            // 
+            // horarioDataGridViewTextBoxColumn
+            // 
+            this.horarioDataGridViewTextBoxColumn.DataPropertyName = "horario";
+            this.horarioDataGridViewTextBoxColumn.HeaderText = "HORARIO";
+            this.horarioDataGridViewTextBoxColumn.Name = "horarioDataGridViewTextBoxColumn";
+            // 
+            // cbCliente
+            // 
+            this.cbCliente.DataSource = this.clienteBindingSource;
+            this.cbCliente.DisplayMember = "nome";
+            this.cbCliente.FormattingEnabled = true;
+            this.cbCliente.Location = new System.Drawing.Point(39, 169);
+            this.cbCliente.Name = "cbCliente";
+            this.cbCliente.Size = new System.Drawing.Size(164, 21);
+            this.cbCliente.TabIndex = 65;
+            this.cbCliente.ValueMember = "nome";
+            // 
+            // clienteBindingSource
+            // 
+            this.clienteBindingSource.DataMember = "cliente";
+            this.clienteBindingSource.DataSource = this.salaoAppBanco;
+            // 
+            // clienteTableAdapter
+            // 
+            this.clienteTableAdapter.ClearBeforeFill = true;
+            // 
             // CadastroHorario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(830, 558);
+            this.Controls.Add(this.cbCliente);
             this.Controls.Add(this.cbProduto);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.cbFuncionario);
@@ -306,22 +321,22 @@
             this.Controls.Add(this.btnIncluir);
             this.Controls.Add(this.btnAlterar);
             this.Controls.Add(this.btnConsultar);
-            this.Controls.Add(this.dateTimePicker1);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dtpHorario);
+            this.Controls.Add(this.dgvHorarios);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.dtpHorarios);
+            this.Controls.Add(this.dtpDataAgendamento);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.lbHorario);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtId);
             this.Controls.Add(this.label1);
             this.Name = "CadastroHorario";
             this.Text = "CADASTRO DE HORARIOS";
             this.Load += new System.EventHandler(this.CadastroHorario_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHorarios)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.horarioBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.salaoAppBanco)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.clienteBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -330,13 +345,12 @@
         #endregion
 
         private System.Windows.Forms.Button btnConsultar;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DateTimePicker dtpHorario;
+        private System.Windows.Forms.DataGridView dgvHorarios;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.DateTimePicker dtpHorarios;
+        private System.Windows.Forms.DateTimePicker dtpDataAgendamento;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lbHorario;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtId;
         private System.Windows.Forms.Label label1;
@@ -346,12 +360,15 @@
         private SalaoAppBanco salaoAppBanco;
         private System.Windows.Forms.BindingSource horarioBindingSource;
         private SalaoAppBancoTableAdapters.horarioTableAdapter horarioTableAdapter;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataagendamentoDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn horarioDataGridViewTextBoxColumn;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cbFuncionario;
         private System.Windows.Forms.ComboBox cbProduto;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataagendamentoDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn horarioDataGridViewTextBoxColumn;
+        private System.Windows.Forms.ComboBox cbCliente;
+        private System.Windows.Forms.BindingSource clienteBindingSource;
+        private SalaoAppBancoTableAdapters.clienteTableAdapter clienteTableAdapter;
     }
 }
