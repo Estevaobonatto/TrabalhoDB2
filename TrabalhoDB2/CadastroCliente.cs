@@ -132,7 +132,6 @@ namespace TrabalhoDB2
                     DataTable dt = new DataTable();
                     dt.Load(reader);
 
-                    // Configurar colunas da DataGridView
                     dtvClientes.AutoGenerateColumns = false;
                     dtvClientes.Columns.Clear();
 

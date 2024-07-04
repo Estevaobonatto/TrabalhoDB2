@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.btnConsultar = new System.Windows.Forms.Button();
             this.cbCidade = new System.Windows.Forms.ComboBox();
+            this.cidadeBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.salaoAppBanco = new TrabalhoDB2.SalaoAppBanco();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.dtpDataNasc = new System.Windows.Forms.DateTimePicker();
@@ -41,22 +43,20 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtId = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.dtvClientes = new System.Windows.Forms.DataGridView();
-            this.btnExcluir = new System.Windows.Forms.Button();
-            this.btnIncluir = new System.Windows.Forms.Button();
-            this.btnAlterar = new System.Windows.Forms.Button();
-            this.salaoAppBanco = new TrabalhoDB2.SalaoAppBanco();
-            this.cidadeBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.cidadeTableAdapter = new TrabalhoDB2.SalaoAppBancoTableAdapters.cidadeTableAdapter();
-            this.funcionarioBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.funcionarioTableAdapter = new TrabalhoDB2.SalaoAppBancoTableAdapters.funcionarioTableAdapter();
+            this.dtvFuncionarios = new System.Windows.Forms.DataGridView();
             this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nomeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cpfDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.datanascimentoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dtvClientes)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.salaoAppBanco)).BeginInit();
+            this.funcionarioBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.btnExcluir = new System.Windows.Forms.Button();
+            this.btnIncluir = new System.Windows.Forms.Button();
+            this.btnAlterar = new System.Windows.Forms.Button();
+            this.cidadeTableAdapter = new TrabalhoDB2.SalaoAppBancoTableAdapters.cidadeTableAdapter();
+            this.funcionarioTableAdapter = new TrabalhoDB2.SalaoAppBancoTableAdapters.funcionarioTableAdapter();
             ((System.ComponentModel.ISupportInitialize)(this.cidadeBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.salaoAppBanco)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtvFuncionarios)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.funcionarioBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -71,6 +71,7 @@
             this.btnConsultar.TabIndex = 69;
             this.btnConsultar.Text = "CONSULTAR";
             this.btnConsultar.UseVisualStyleBackColor = true;
+            this.btnConsultar.Click += new System.EventHandler(this.btnConsultar_Click);
             // 
             // cbCidade
             // 
@@ -82,6 +83,17 @@
             this.cbCidade.Size = new System.Drawing.Size(120, 21);
             this.cbCidade.TabIndex = 68;
             this.cbCidade.ValueMember = "nome";
+            this.cbCidade.SelectedIndexChanged += new System.EventHandler(this.cbCidade_SelectedIndexChanged);
+            // 
+            // cidadeBindingSource
+            // 
+            this.cidadeBindingSource.DataMember = "cidade";
+            this.cidadeBindingSource.DataSource = this.salaoAppBanco;
+            // 
+            // salaoAppBanco
+            // 
+            this.salaoAppBanco.DataSetName = "SalaoAppBanco";
+            this.salaoAppBanco.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // label6
             // 
@@ -112,6 +124,7 @@
             this.dtpDataNasc.Name = "dtpDataNasc";
             this.dtpDataNasc.Size = new System.Drawing.Size(120, 20);
             this.dtpDataNasc.TabIndex = 65;
+            this.dtpDataNasc.ValueChanged += new System.EventHandler(this.dtpDataNasc_ValueChanged);
             // 
             // label4
             // 
@@ -127,10 +140,11 @@
             // 
             this.mtbCpf.Location = new System.Drawing.Point(58, 246);
             this.mtbCpf.Margin = new System.Windows.Forms.Padding(2);
-            this.mtbCpf.Mask = "000,000,000-00";
+            this.mtbCpf.Mask = "00000000000";
             this.mtbCpf.Name = "mtbCpf";
             this.mtbCpf.Size = new System.Drawing.Size(88, 20);
             this.mtbCpf.TabIndex = 63;
+            this.mtbCpf.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.mtbCpf_MaskInputRejected);
             // 
             // label3
             // 
@@ -149,6 +163,7 @@
             this.txtNome.Name = "txtNome";
             this.txtNome.Size = new System.Drawing.Size(164, 20);
             this.txtNome.TabIndex = 61;
+            this.txtNome.TextChanged += new System.EventHandler(this.txtNome_TextChanged);
             // 
             // label2
             // 
@@ -167,6 +182,7 @@
             this.txtId.Name = "txtId";
             this.txtId.Size = new System.Drawing.Size(43, 20);
             this.txtId.TabIndex = 59;
+            this.txtId.TextChanged += new System.EventHandler(this.txtId_TextChanged);
             // 
             // label1
             // 
@@ -178,82 +194,23 @@
             this.label1.TabIndex = 58;
             this.label1.Text = "ID do Funcionario";
             // 
-            // dtvClientes
+            // dtvFuncionarios
             // 
-            this.dtvClientes.AutoGenerateColumns = false;
-            this.dtvClientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtvClientes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dtvFuncionarios.AutoGenerateColumns = false;
+            this.dtvFuncionarios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtvFuncionarios.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.idDataGridViewTextBoxColumn,
             this.nomeDataGridViewTextBoxColumn,
             this.cpfDataGridViewTextBoxColumn,
             this.datanascimentoDataGridViewTextBoxColumn});
-            this.dtvClientes.DataSource = this.funcionarioBindingSource;
-            this.dtvClientes.Location = new System.Drawing.Point(19, 309);
-            this.dtvClientes.Margin = new System.Windows.Forms.Padding(2);
-            this.dtvClientes.Name = "dtvClientes";
-            this.dtvClientes.RowHeadersWidth = 51;
-            this.dtvClientes.RowTemplate.Height = 24;
-            this.dtvClientes.Size = new System.Drawing.Size(760, 294);
-            this.dtvClientes.TabIndex = 57;
-            // 
-            // btnExcluir
-            // 
-            this.btnExcluir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.btnExcluir.Font = new System.Drawing.Font("Leelawadee UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExcluir.Location = new System.Drawing.Point(631, 184);
-            this.btnExcluir.Margin = new System.Windows.Forms.Padding(2);
-            this.btnExcluir.Name = "btnExcluir";
-            this.btnExcluir.Size = new System.Drawing.Size(148, 41);
-            this.btnExcluir.TabIndex = 56;
-            this.btnExcluir.Text = "EXCLUIR";
-            this.btnExcluir.UseVisualStyleBackColor = false;
-            // 
-            // btnIncluir
-            // 
-            this.btnIncluir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btnIncluir.Font = new System.Drawing.Font("Leelawadee UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnIncluir.Location = new System.Drawing.Point(631, 67);
-            this.btnIncluir.Margin = new System.Windows.Forms.Padding(2);
-            this.btnIncluir.Name = "btnIncluir";
-            this.btnIncluir.Size = new System.Drawing.Size(148, 41);
-            this.btnIncluir.TabIndex = 55;
-            this.btnIncluir.Text = "INCLUIR";
-            this.btnIncluir.UseVisualStyleBackColor = false;
-            // 
-            // btnAlterar
-            // 
-            this.btnAlterar.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.btnAlterar.Font = new System.Drawing.Font("Leelawadee UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAlterar.Location = new System.Drawing.Point(631, 125);
-            this.btnAlterar.Margin = new System.Windows.Forms.Padding(2);
-            this.btnAlterar.Name = "btnAlterar";
-            this.btnAlterar.Size = new System.Drawing.Size(148, 41);
-            this.btnAlterar.TabIndex = 54;
-            this.btnAlterar.Text = "ALTERAR";
-            this.btnAlterar.UseVisualStyleBackColor = false;
-            // 
-            // salaoAppBanco
-            // 
-            this.salaoAppBanco.DataSetName = "SalaoAppBanco";
-            this.salaoAppBanco.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // cidadeBindingSource
-            // 
-            this.cidadeBindingSource.DataMember = "cidade";
-            this.cidadeBindingSource.DataSource = this.salaoAppBanco;
-            // 
-            // cidadeTableAdapter
-            // 
-            this.cidadeTableAdapter.ClearBeforeFill = true;
-            // 
-            // funcionarioBindingSource
-            // 
-            this.funcionarioBindingSource.DataMember = "funcionario";
-            this.funcionarioBindingSource.DataSource = this.salaoAppBanco;
-            // 
-            // funcionarioTableAdapter
-            // 
-            this.funcionarioTableAdapter.ClearBeforeFill = true;
+            this.dtvFuncionarios.DataSource = this.funcionarioBindingSource;
+            this.dtvFuncionarios.Location = new System.Drawing.Point(19, 309);
+            this.dtvFuncionarios.Margin = new System.Windows.Forms.Padding(2);
+            this.dtvFuncionarios.Name = "dtvFuncionarios";
+            this.dtvFuncionarios.RowHeadersWidth = 51;
+            this.dtvFuncionarios.RowTemplate.Height = 24;
+            this.dtvFuncionarios.Size = new System.Drawing.Size(760, 294);
+            this.dtvFuncionarios.TabIndex = 57;
             // 
             // idDataGridViewTextBoxColumn
             // 
@@ -279,6 +236,58 @@
             this.datanascimentoDataGridViewTextBoxColumn.HeaderText = "data_nascimento";
             this.datanascimentoDataGridViewTextBoxColumn.Name = "datanascimentoDataGridViewTextBoxColumn";
             // 
+            // funcionarioBindingSource
+            // 
+            this.funcionarioBindingSource.DataMember = "funcionario";
+            this.funcionarioBindingSource.DataSource = this.salaoAppBanco;
+            // 
+            // btnExcluir
+            // 
+            this.btnExcluir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.btnExcluir.Font = new System.Drawing.Font("Leelawadee UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExcluir.Location = new System.Drawing.Point(631, 184);
+            this.btnExcluir.Margin = new System.Windows.Forms.Padding(2);
+            this.btnExcluir.Name = "btnExcluir";
+            this.btnExcluir.Size = new System.Drawing.Size(148, 41);
+            this.btnExcluir.TabIndex = 56;
+            this.btnExcluir.Text = "EXCLUIR";
+            this.btnExcluir.UseVisualStyleBackColor = false;
+            this.btnExcluir.Click += new System.EventHandler(this.btnExcluir_Click);
+            // 
+            // btnIncluir
+            // 
+            this.btnIncluir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btnIncluir.Font = new System.Drawing.Font("Leelawadee UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnIncluir.Location = new System.Drawing.Point(631, 67);
+            this.btnIncluir.Margin = new System.Windows.Forms.Padding(2);
+            this.btnIncluir.Name = "btnIncluir";
+            this.btnIncluir.Size = new System.Drawing.Size(148, 41);
+            this.btnIncluir.TabIndex = 55;
+            this.btnIncluir.Text = "INCLUIR";
+            this.btnIncluir.UseVisualStyleBackColor = false;
+            this.btnIncluir.Click += new System.EventHandler(this.btnIncluir_Click);
+            // 
+            // btnAlterar
+            // 
+            this.btnAlterar.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.btnAlterar.Font = new System.Drawing.Font("Leelawadee UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAlterar.Location = new System.Drawing.Point(631, 125);
+            this.btnAlterar.Margin = new System.Windows.Forms.Padding(2);
+            this.btnAlterar.Name = "btnAlterar";
+            this.btnAlterar.Size = new System.Drawing.Size(148, 41);
+            this.btnAlterar.TabIndex = 54;
+            this.btnAlterar.Text = "ALTERAR";
+            this.btnAlterar.UseVisualStyleBackColor = false;
+            this.btnAlterar.Click += new System.EventHandler(this.btnAlterar_Click);
+            // 
+            // cidadeTableAdapter
+            // 
+            this.cidadeTableAdapter.ClearBeforeFill = true;
+            // 
+            // funcionarioTableAdapter
+            // 
+            this.funcionarioTableAdapter.ClearBeforeFill = true;
+            // 
             // CadastroFuncionario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -296,16 +305,16 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtId);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dtvClientes);
+            this.Controls.Add(this.dtvFuncionarios);
             this.Controls.Add(this.btnExcluir);
             this.Controls.Add(this.btnIncluir);
             this.Controls.Add(this.btnAlterar);
             this.Name = "CadastroFuncionario";
             this.Text = "CadastroFuncionario";
             this.Load += new System.EventHandler(this.CadastroFuncionario_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dtvClientes)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.salaoAppBanco)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cidadeBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.salaoAppBanco)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtvFuncionarios)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.funcionarioBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -325,7 +334,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtId;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView dtvClientes;
+        private System.Windows.Forms.DataGridView dtvFuncionarios;
         private System.Windows.Forms.Button btnExcluir;
         private System.Windows.Forms.Button btnIncluir;
         private System.Windows.Forms.Button btnAlterar;

@@ -34,24 +34,26 @@
             this.btnAlterar = new System.Windows.Forms.Button();
             this.btnConsultar = new System.Windows.Forms.Button();
             this.dgvProdutos = new System.Windows.Forms.DataGridView();
+            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nomeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.precoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.servicoBindingSource2 = new System.Windows.Forms.BindingSource(this.components);
+            this.salaoAppBanco = new TrabalhoDB2.SalaoAppBanco();
+            this.servicoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label5 = new System.Windows.Forms.Label();
-            this.dtpDataAgendamento = new System.Windows.Forms.DateTimePicker();
-            this.label4 = new System.Windows.Forms.Label();
             this.txtNome = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtId = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.mtbPreco = new System.Windows.Forms.MaskedTextBox();
-            this.salaoAppBanco = new TrabalhoDB2.SalaoAppBanco();
-            this.servicoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.servicoTableAdapter = new TrabalhoDB2.SalaoAppBancoTableAdapters.servicoTableAdapter();
-            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nomeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.precoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.servicoBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProdutos)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.servicoBindingSource2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.salaoAppBanco)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.servicoBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.servicoBindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnExcluir
@@ -103,6 +105,7 @@
             this.btnConsultar.TabIndex = 75;
             this.btnConsultar.Text = "CONSULTAR";
             this.btnConsultar.UseVisualStyleBackColor = true;
+            this.btnConsultar.Click += new System.EventHandler(this.btnConsultar_Click);
             // 
             // dgvProdutos
             // 
@@ -112,7 +115,7 @@
             this.idDataGridViewTextBoxColumn,
             this.nomeDataGridViewTextBoxColumn,
             this.precoDataGridViewTextBoxColumn});
-            this.dgvProdutos.DataSource = this.servicoBindingSource;
+            this.dgvProdutos.DataSource = this.servicoBindingSource2;
             this.dgvProdutos.Location = new System.Drawing.Point(11, 289);
             this.dgvProdutos.Margin = new System.Windows.Forms.Padding(2);
             this.dgvProdutos.Name = "dgvProdutos";
@@ -121,6 +124,39 @@
             this.dgvProdutos.Size = new System.Drawing.Size(695, 254);
             this.dgvProdutos.TabIndex = 73;
             this.dgvProdutos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProdutos_CellContentClick);
+            // 
+            // idDataGridViewTextBoxColumn
+            // 
+            this.idDataGridViewTextBoxColumn.DataPropertyName = "id";
+            this.idDataGridViewTextBoxColumn.HeaderText = "id";
+            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            // 
+            // nomeDataGridViewTextBoxColumn
+            // 
+            this.nomeDataGridViewTextBoxColumn.DataPropertyName = "nome";
+            this.nomeDataGridViewTextBoxColumn.HeaderText = "nome";
+            this.nomeDataGridViewTextBoxColumn.Name = "nomeDataGridViewTextBoxColumn";
+            // 
+            // precoDataGridViewTextBoxColumn
+            // 
+            this.precoDataGridViewTextBoxColumn.DataPropertyName = "preco";
+            this.precoDataGridViewTextBoxColumn.HeaderText = "preco";
+            this.precoDataGridViewTextBoxColumn.Name = "precoDataGridViewTextBoxColumn";
+            // 
+            // servicoBindingSource2
+            // 
+            this.servicoBindingSource2.DataMember = "servico";
+            this.servicoBindingSource2.DataSource = this.salaoAppBanco;
+            // 
+            // salaoAppBanco
+            // 
+            this.salaoAppBanco.DataSetName = "SalaoAppBanco";
+            this.salaoAppBanco.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // servicoBindingSource
+            // 
+            this.servicoBindingSource.DataMember = "servico";
+            this.servicoBindingSource.DataSource = this.salaoAppBanco;
             // 
             // label5
             // 
@@ -132,28 +168,6 @@
             this.label5.Size = new System.Drawing.Size(355, 37);
             this.label5.TabIndex = 72;
             this.label5.Text = "CADASTRO DE PRODUTOS";
-            // 
-            // dtpDataAgendamento
-            // 
-            this.dtpDataAgendamento.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.dtpDataAgendamento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDataAgendamento.Location = new System.Drawing.Point(243, 106);
-            this.dtpDataAgendamento.Margin = new System.Windows.Forms.Padding(2);
-            this.dtpDataAgendamento.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
-            this.dtpDataAgendamento.Name = "dtpDataAgendamento";
-            this.dtpDataAgendamento.Size = new System.Drawing.Size(123, 20);
-            this.dtpDataAgendamento.TabIndex = 71;
-            this.dtpDataAgendamento.ValueChanged += new System.EventHandler(this.dtpDataAgendamento_ValueChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(240, 80);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(114, 13);
-            this.label4.TabIndex = 70;
-            this.label4.Text = "Data de Agendamento";
             // 
             // txtNome
             // 
@@ -196,7 +210,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(240, 145);
+            this.label3.Location = new System.Drawing.Point(238, 117);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 13);
@@ -205,44 +219,20 @@
             // 
             // mtbPreco
             // 
-            this.mtbPreco.Location = new System.Drawing.Point(243, 169);
-            this.mtbPreco.Mask = "$0000.00";
+            this.mtbPreco.Location = new System.Drawing.Point(241, 141);
             this.mtbPreco.Name = "mtbPreco";
             this.mtbPreco.Size = new System.Drawing.Size(123, 20);
             this.mtbPreco.TabIndex = 80;
             this.mtbPreco.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.mtbPreco_MaskInputRejected);
             // 
-            // salaoAppBanco
-            // 
-            this.salaoAppBanco.DataSetName = "SalaoAppBanco";
-            this.salaoAppBanco.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // servicoBindingSource
-            // 
-            this.servicoBindingSource.DataMember = "servico";
-            this.servicoBindingSource.DataSource = this.salaoAppBanco;
-            // 
             // servicoTableAdapter
             // 
             this.servicoTableAdapter.ClearBeforeFill = true;
             // 
-            // idDataGridViewTextBoxColumn
+            // servicoBindingSource1
             // 
-            this.idDataGridViewTextBoxColumn.DataPropertyName = "id";
-            this.idDataGridViewTextBoxColumn.HeaderText = "id";
-            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            // 
-            // nomeDataGridViewTextBoxColumn
-            // 
-            this.nomeDataGridViewTextBoxColumn.DataPropertyName = "nome";
-            this.nomeDataGridViewTextBoxColumn.HeaderText = "nome";
-            this.nomeDataGridViewTextBoxColumn.Name = "nomeDataGridViewTextBoxColumn";
-            // 
-            // precoDataGridViewTextBoxColumn
-            // 
-            this.precoDataGridViewTextBoxColumn.DataPropertyName = "preco";
-            this.precoDataGridViewTextBoxColumn.HeaderText = "preco";
-            this.precoDataGridViewTextBoxColumn.Name = "precoDataGridViewTextBoxColumn";
+            this.servicoBindingSource1.DataMember = "servico";
+            this.servicoBindingSource1.DataSource = this.salaoAppBanco;
             // 
             // CadastroProduto
             // 
@@ -257,8 +247,6 @@
             this.Controls.Add(this.btnConsultar);
             this.Controls.Add(this.dgvProdutos);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.dtpDataAgendamento);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.txtNome);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtId);
@@ -267,8 +255,10 @@
             this.Text = "CadastroProduto";
             this.Load += new System.EventHandler(this.CadastroProduto_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProdutos)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.servicoBindingSource2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.salaoAppBanco)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.servicoBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.servicoBindingSource1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -281,8 +271,6 @@
         private System.Windows.Forms.Button btnConsultar;
         private System.Windows.Forms.DataGridView dgvProdutos;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.DateTimePicker dtpDataAgendamento;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtNome;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtId;
@@ -295,5 +283,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn nomeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn precoDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource servicoBindingSource2;
+        private System.Windows.Forms.BindingSource servicoBindingSource1;
     }
 }
