@@ -1,4 +1,3 @@
-+++
 # README
 
 ## Introdução
@@ -61,4 +60,3 @@ git clone https://github.com/seu-usuario/seu-repositorio.git
 ## Licença
 
 Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.
-+++
