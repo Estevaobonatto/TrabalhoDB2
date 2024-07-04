@@ -33,23 +33,23 @@
             this.btnIncluir = new System.Windows.Forms.Button();
             this.btnAlterar = new System.Windows.Forms.Button();
             this.btnConsultar = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgvProdutos = new System.Windows.Forms.DataGridView();
             this.label5 = new System.Windows.Forms.Label();
-            this.dtpHorarios = new System.Windows.Forms.DateTimePicker();
+            this.dtpDataAgendamento = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtNome = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtId = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
+            this.mtbPreco = new System.Windows.Forms.MaskedTextBox();
             this.salaoAppBanco = new TrabalhoDB2.SalaoAppBanco();
             this.servicoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.servicoTableAdapter = new TrabalhoDB2.SalaoAppBancoTableAdapters.servicoTableAdapter();
             this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nomeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.precoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProdutos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.salaoAppBanco)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.servicoBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -65,6 +65,7 @@
             this.btnExcluir.TabIndex = 78;
             this.btnExcluir.Text = "EXCLUIR";
             this.btnExcluir.UseVisualStyleBackColor = false;
+            this.btnExcluir.Click += new System.EventHandler(this.btnExcluir_Click);
             // 
             // btnIncluir
             // 
@@ -77,6 +78,7 @@
             this.btnIncluir.TabIndex = 77;
             this.btnIncluir.Text = "INCLUIR";
             this.btnIncluir.UseVisualStyleBackColor = false;
+            this.btnIncluir.Click += new System.EventHandler(this.btnIncluir_Click);
             // 
             // btnAlterar
             // 
@@ -89,6 +91,7 @@
             this.btnAlterar.TabIndex = 76;
             this.btnAlterar.Text = "ALTERAR";
             this.btnAlterar.UseVisualStyleBackColor = false;
+            this.btnAlterar.Click += new System.EventHandler(this.btnAlterar_Click);
             // 
             // btnConsultar
             // 
@@ -101,22 +104,23 @@
             this.btnConsultar.Text = "CONSULTAR";
             this.btnConsultar.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // dgvProdutos
             // 
-            this.dataGridView1.AutoGenerateColumns = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvProdutos.AutoGenerateColumns = false;
+            this.dgvProdutos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvProdutos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.idDataGridViewTextBoxColumn,
             this.nomeDataGridViewTextBoxColumn,
             this.precoDataGridViewTextBoxColumn});
-            this.dataGridView1.DataSource = this.servicoBindingSource;
-            this.dataGridView1.Location = new System.Drawing.Point(11, 289);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(695, 254);
-            this.dataGridView1.TabIndex = 73;
+            this.dgvProdutos.DataSource = this.servicoBindingSource;
+            this.dgvProdutos.Location = new System.Drawing.Point(11, 289);
+            this.dgvProdutos.Margin = new System.Windows.Forms.Padding(2);
+            this.dgvProdutos.Name = "dgvProdutos";
+            this.dgvProdutos.RowHeadersWidth = 51;
+            this.dgvProdutos.RowTemplate.Height = 24;
+            this.dgvProdutos.Size = new System.Drawing.Size(695, 254);
+            this.dgvProdutos.TabIndex = 73;
+            this.dgvProdutos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProdutos_CellContentClick);
             // 
             // label5
             // 
@@ -129,16 +133,17 @@
             this.label5.TabIndex = 72;
             this.label5.Text = "CADASTRO DE PRODUTOS";
             // 
-            // dtpHorarios
+            // dtpDataAgendamento
             // 
-            this.dtpHorarios.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.dtpHorarios.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpHorarios.Location = new System.Drawing.Point(243, 106);
-            this.dtpHorarios.Margin = new System.Windows.Forms.Padding(2);
-            this.dtpHorarios.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
-            this.dtpHorarios.Name = "dtpHorarios";
-            this.dtpHorarios.Size = new System.Drawing.Size(123, 20);
-            this.dtpHorarios.TabIndex = 71;
+            this.dtpDataAgendamento.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.dtpDataAgendamento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpDataAgendamento.Location = new System.Drawing.Point(243, 106);
+            this.dtpDataAgendamento.Margin = new System.Windows.Forms.Padding(2);
+            this.dtpDataAgendamento.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            this.dtpDataAgendamento.Name = "dtpDataAgendamento";
+            this.dtpDataAgendamento.Size = new System.Drawing.Size(123, 20);
+            this.dtpDataAgendamento.TabIndex = 71;
+            this.dtpDataAgendamento.ValueChanged += new System.EventHandler(this.dtpDataAgendamento_ValueChanged);
             // 
             // label4
             // 
@@ -150,13 +155,14 @@
             this.label4.TabIndex = 70;
             this.label4.Text = "Data de Agendamento";
             // 
-            // textBox1
+            // txtNome
             // 
-            this.textBox1.Location = new System.Drawing.Point(20, 168);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(164, 20);
-            this.textBox1.TabIndex = 68;
+            this.txtNome.Location = new System.Drawing.Point(20, 168);
+            this.txtNome.Margin = new System.Windows.Forms.Padding(2);
+            this.txtNome.Name = "txtNome";
+            this.txtNome.Size = new System.Drawing.Size(164, 20);
+            this.txtNome.TabIndex = 68;
+            this.txtNome.TextChanged += new System.EventHandler(this.txtNome_TextChanged);
             // 
             // label2
             // 
@@ -175,6 +181,7 @@
             this.txtId.Name = "txtId";
             this.txtId.Size = new System.Drawing.Size(43, 20);
             this.txtId.TabIndex = 66;
+            this.txtId.TextChanged += new System.EventHandler(this.txtId_TextChanged);
             // 
             // label1
             // 
@@ -196,13 +203,14 @@
             this.label3.TabIndex = 79;
             this.label3.Text = "Preço";
             // 
-            // maskedTextBox1
+            // mtbPreco
             // 
-            this.maskedTextBox1.Location = new System.Drawing.Point(243, 169);
-            this.maskedTextBox1.Mask = "$0000.00";
-            this.maskedTextBox1.Name = "maskedTextBox1";
-            this.maskedTextBox1.Size = new System.Drawing.Size(123, 20);
-            this.maskedTextBox1.TabIndex = 80;
+            this.mtbPreco.Location = new System.Drawing.Point(243, 169);
+            this.mtbPreco.Mask = "$0000.00";
+            this.mtbPreco.Name = "mtbPreco";
+            this.mtbPreco.Size = new System.Drawing.Size(123, 20);
+            this.mtbPreco.TabIndex = 80;
+            this.mtbPreco.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.mtbPreco_MaskInputRejected);
             // 
             // salaoAppBanco
             // 
@@ -241,24 +249,24 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(717, 554);
-            this.Controls.Add(this.maskedTextBox1);
+            this.Controls.Add(this.mtbPreco);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnExcluir);
             this.Controls.Add(this.btnIncluir);
             this.Controls.Add(this.btnAlterar);
             this.Controls.Add(this.btnConsultar);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dgvProdutos);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.dtpHorarios);
+            this.Controls.Add(this.dtpDataAgendamento);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtNome);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtId);
             this.Controls.Add(this.label1);
             this.Name = "CadastroProduto";
             this.Text = "CadastroProduto";
             this.Load += new System.EventHandler(this.CadastroProduto_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProdutos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.salaoAppBanco)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.servicoBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -271,16 +279,16 @@
         private System.Windows.Forms.Button btnIncluir;
         private System.Windows.Forms.Button btnAlterar;
         private System.Windows.Forms.Button btnConsultar;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvProdutos;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.DateTimePicker dtpHorarios;
+        private System.Windows.Forms.DateTimePicker dtpDataAgendamento;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtNome;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtId;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
+        private System.Windows.Forms.MaskedTextBox mtbPreco;
         private SalaoAppBanco salaoAppBanco;
         private System.Windows.Forms.BindingSource servicoBindingSource;
         private SalaoAppBancoTableAdapters.servicoTableAdapter servicoTableAdapter;

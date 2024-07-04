@@ -115,7 +115,10 @@ namespace TrabalhoDB2
         private void CarregarClientes()
         {
             string connectionString = "Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;";
-            string query = "SELECT id, nome, cpf, data_nascimento, cidade_id FROM cliente";
+            string query = @"
+            SELECT c.id, c.nome, c.cpf, c.data_nascimento, c.cidade_id, ci.nome AS cidade_nome
+            FROM cliente c
+            JOIN cidade ci ON c.cidade_id = ci.id";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -129,6 +132,17 @@ namespace TrabalhoDB2
                     DataTable dt = new DataTable();
                     dt.Load(reader);
 
+                    // Configurar colunas da DataGridView
+                    dtvClientes.AutoGenerateColumns = false;
+                    dtvClientes.Columns.Clear();
+
+                    dtvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "id", HeaderText = "ID" });
+                    dtvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "nome", HeaderText = "Nome" });
+                    dtvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "cpf", HeaderText = "CPF" });
+                    dtvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "data_nascimento", HeaderText = "Data de Nascimento" });
+                    dtvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "cidade_id", HeaderText = "ID Cidade" });
+                    dtvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "cidade_nome", HeaderText = "Cidade" });
+
                     dtvClientes.DataSource = dt;
                 }
                 catch (Exception ex)
@@ -137,6 +151,7 @@ namespace TrabalhoDB2
                 }
             }
         }
+
         private void dtvClientes_SelectionChanged_1(object sender, EventArgs e)
         {
             if (dtvClientes.SelectedRows.Count > 0)

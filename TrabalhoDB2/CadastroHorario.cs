@@ -145,7 +145,13 @@ namespace TrabalhoDB2
         private void CarregarHorarios()
         {
             string connectionString = "Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;";
-            string query = "SELECT id, data_agendamento, horario, cliente_id, servico_id, funcionario_id FROM horario";
+            string query = @"
+            SELECT h.id, h.data_agendamento, h.horario, h.cliente_id, c.nome AS cliente_nome, 
+                   h.servico_id, s.nome AS servico_nome, h.funcionario_id, f.nome AS funcionario_nome
+            FROM horario h
+            JOIN cliente c ON h.cliente_id = c.id
+            JOIN servico s ON h.servico_id = s.id
+            JOIN funcionario f ON h.funcionario_id = f.id";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -159,6 +165,20 @@ namespace TrabalhoDB2
                     DataTable dt = new DataTable();
                     dt.Load(reader);
 
+                    // Configurar colunas da DataGridView
+                    dgvHorarios.AutoGenerateColumns = false;
+                    dgvHorarios.Columns.Clear();
+
+                    dgvHorarios.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "id", HeaderText = "ID" });
+                    dgvHorarios.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "data_agendamento", HeaderText = "Data Agendamento" });
+                    dgvHorarios.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "horario", HeaderText = "Horário" });
+                    dgvHorarios.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "cliente_id", HeaderText = "ID Cliente" });
+                    dgvHorarios.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "cliente_nome", HeaderText = "Nome Cliente" });
+                    dgvHorarios.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "servico_id", HeaderText = "ID Serviço" });
+                    dgvHorarios.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "servico_nome", HeaderText = "Nome Serviço" });
+                    dgvHorarios.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "funcionario_id", HeaderText = "ID Funcionário" });
+                    dgvHorarios.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "funcionario_nome", HeaderText = "Nome Funcionário" });
+
                     dgvHorarios.DataSource = dt;
                 }
                 catch (Exception ex)
@@ -167,6 +187,7 @@ namespace TrabalhoDB2
                 }
             }
         }
+
 
         private void txtId_TextChanged(object sender, EventArgs e)
         {
