@@ -2,7 +2,7 @@
 
 ## Introdução
 
-Este repositório contém um sistema básico de gerenciamento de clientes desenvolvido utilizando Windows Forms. O sistema inclui funcionalidades para gerenciar clientes, agendar horários, gerenciar funcionários e gerenciar produtos. Abaixo estão capturas de tela e descrições das várias telas disponíveis na aplicação.
+Este repositório contém um sistema básico de gerenciamento de clientes de um salão de beleza desenvolvido utilizando Windows Forms. O sistema inclui funcionalidades para gerenciar clientes, agendar horários, gerenciar funcionários e gerenciar produtos. Abaixo estão capturas de tela e descrições das várias telas disponíveis na aplicação.
 
 ## Capturas de Tela
 
