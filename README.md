@@ -1,9 +1,8 @@
-+++
 # README
 
 ## Introdução
 
-Este repositório contém um sistema básico de gerenciamento de clientes desenvolvido utilizando Windows Forms. O sistema inclui funcionalidades para gerenciar clientes, agendar horários, gerenciar funcionários e gerenciar produtos. Abaixo estão capturas de tela e descrições das várias telas disponíveis na aplicação.
+Este repositório contém um sistema básico de gerenciamento de clientes de um salão de beleza desenvolvido utilizando Windows Forms. O sistema inclui funcionalidades para gerenciar clientes, agendar horários, gerenciar funcionários e gerenciar produtos. Abaixo estão capturas de tela e descrições das várias telas disponíveis na aplicação.
 
 ## Capturas de Tela
 
@@ -61,4 +60,3 @@ git clone https://github.com/seu-usuario/seu-repositorio.git
 ## Licença
 
 Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.
-+++
