@@ -1,19 +1,16 @@
---execute a criação de tabela uma por vez
-
--- Criação do banco de dados
 CREATE DATABASE SalaoAppBanco;
 
--- Selecionar o banco de dados para uso
+
 USE SalaoAppBanco;
 
--- Criação da tabela cidade
+
 CREATE TABLE cidade (
     id INT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     uf CHAR(2) NOT NULL
 );
 
--- Criação da tabela cliente
+
 CREATE TABLE cliente (
     id INT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
@@ -23,7 +20,7 @@ CREATE TABLE cliente (
     FOREIGN KEY (cidade_id) REFERENCES cidade(id)
 );
 
--- Criação da tabela servico
+
 CREATE TABLE servico (
     id INT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
@@ -32,7 +29,7 @@ CREATE TABLE servico (
 );
 go
 
--- Criação da tabela funcionario
+
 CREATE TABLE funcionario (
     id INT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
@@ -90,7 +87,7 @@ INSERT INTO horario (id, data_agendamento, horario, cliente_id, servico_id, func
 INSERT INTO horario (id, data_agendamento, horario, cliente_id, servico_id, funcionario_id) VALUES (9, '2024-07-08', '18:00:00', 4, 5, 4);
 INSERT INTO horario (id, data_agendamento, horario, cliente_id, servico_id, funcionario_id) VALUES (10, '2024-07-09', '19:00:00', 5, 1, 5);
 
--- Stored Procedure para inserir cliente
+
 CREATE PROCEDURE sp_InserirCliente
     @ID INT,
     @NOME VARCHAR(255),
@@ -104,7 +101,6 @@ BEGIN
 END;
 GO
 
--- Stored Procedure para atualizar cliente
 CREATE PROCEDURE sp_AtualizarCliente
     @ID INT,
     @NOME VARCHAR(255),
@@ -119,7 +115,6 @@ BEGIN
 END;
 GO
 
--- Stored Procedure para excluir cliente
 CREATE PROCEDURE sp_ExcluirCliente
     @ID INT
 AS
@@ -128,7 +123,6 @@ BEGIN
 END;
 GO
 
--- Stored Procedure para consultar cliente por ID
 CREATE PROCEDURE sp_ConsultarCliente
     @ID INT
 AS
@@ -139,7 +133,6 @@ BEGIN
 END;
 GO
 
--- Stored Procedure para carregar todos os clientes
 CREATE PROCEDURE sp_CarregarClientes
 AS
 BEGIN
@@ -203,7 +196,7 @@ BEGIN
 END
 GO
 
--- Stored Procedure para Inserir Horário
+
 CREATE PROCEDURE sp_InserirHorario
     @ID INT,
     @DATA_AGENDAMENTO DATETIME,
@@ -217,7 +210,7 @@ BEGIN
     VALUES (@ID, @DATA_AGENDAMENTO, @HORARIO, @CLIENTE_ID, @SERVICO_ID, @FUNCIONARIO_ID)
 END
 
--- Stored Procedure para Atualizar Horário
+
 CREATE PROCEDURE sp_AtualizarHorario
     @ID INT,
     @DATA_AGENDAMENTO DATETIME,
@@ -237,7 +230,7 @@ BEGIN
 END
 GO
 
--- Stored Procedure para Excluir Horário
+
 CREATE PROCEDURE sp_ExcluirHorario
     @ID INT
 AS
@@ -246,7 +239,7 @@ BEGIN
 END
 GO
 
--- Stored Procedure para Consultar Horário
+
 CREATE PROCEDURE sp_ConsultarHorario
     @ID INT
 AS
@@ -257,7 +250,7 @@ BEGIN
 END
 GO
 
--- Stored Procedure para Inserir Produto
+
 CREATE PROCEDURE sp_InserirProduto
     @ID INT,
     @NOME NVARCHAR(100),
@@ -268,7 +261,7 @@ BEGIN
     VALUES (@ID, @NOME, @PRECO)
 END
 
--- Stored Procedure para Atualizar Produto
+
 CREATE PROCEDURE sp_AtualizarProduto
     @ID INT,
     @NOME NVARCHAR(100),
@@ -282,7 +275,7 @@ BEGIN
 END
 GO
 
--- Stored Procedure para Excluir Produto
+
 CREATE PROCEDURE sp_ExcluirProduto
     @ID INT
 AS
@@ -292,7 +285,7 @@ BEGIN
 END
 GO
 
--- Stored Procedure para Consultar Produto
+
 CREATE PROCEDURE sp_ConsultarProduto
     @ID INT
 AS
@@ -303,13 +296,13 @@ BEGIN
 END
 GO
 
--- Criar novo trigger na tabela cliente
+
 CREATE TRIGGER trg_VerificarFormatoCPFEDateCliente
 ON cliente
 FOR INSERT, UPDATE
 AS
 BEGIN
-    -- Verifica se o CPF tem exatamente 11 dígitos numéricos
+    
     IF EXISTS (SELECT 1 FROM inserted WHERE LEN(cpf) != 11)
     BEGIN
         ROLLBACK TRANSACTION;
@@ -317,7 +310,7 @@ BEGIN
         RETURN;
     END
 
-    -- Verifica se a data de nascimento não é maior que 01/01/2017
+    
     IF EXISTS (SELECT 1 FROM inserted WHERE data_nascimento > '2017-01-01')
     BEGIN
         ROLLBACK TRANSACTION;
@@ -327,13 +320,13 @@ BEGIN
 END;
 GO
 
--- Criar novo trigger na tabela funcionario
+
 CREATE TRIGGER trg_VerificarFormatoCPFEDateFuncionario
 ON funcionario
 FOR INSERT, UPDATE
 AS
 BEGIN
-    -- Verifica se o CPF tem exatamente 11 dígitos numéricos
+    
     IF EXISTS (SELECT 1 FROM inserted WHERE LEN(cpf) != 11)
     BEGIN
         ROLLBACK TRANSACTION;
@@ -341,7 +334,7 @@ BEGIN
         RETURN;
     END
 
-    -- Verifica se a data de nascimento não é maior que 01/01/2017
+    
     IF EXISTS (SELECT 1 FROM inserted WHERE data_nascimento > '2017-01-01')
     BEGIN
         ROLLBACK TRANSACTION;
