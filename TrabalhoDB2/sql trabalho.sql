@@ -205,6 +205,7 @@ GO
 
 -- Stored Procedure para Inserir Horário
 CREATE PROCEDURE sp_InserirHorario
+    @ID INT,
     @DATA_AGENDAMENTO DATETIME,
     @HORARIO TIME,
     @CLIENTE_ID INT,
@@ -212,10 +213,9 @@ CREATE PROCEDURE sp_InserirHorario
     @FUNCIONARIO_ID INT
 AS
 BEGIN
-    INSERT INTO horario (data_agendamento, horario, cliente_id, servico_id, funcionario_id)
-    VALUES (@DATA_AGENDAMENTO, @HORARIO, @CLIENTE_ID, @SERVICO_ID, @FUNCIONARIO_ID);
+    INSERT INTO horario (id, data_agendamento, horario, cliente_id, servico_id, funcionario_id)
+    VALUES (@ID, @DATA_AGENDAMENTO, @HORARIO, @CLIENTE_ID, @SERVICO_ID, @FUNCIONARIO_ID)
 END
-GO
 
 -- Stored Procedure para Atualizar Horário
 CREATE PROCEDURE sp_AtualizarHorario
@@ -259,14 +259,14 @@ GO
 
 -- Stored Procedure para Inserir Produto
 CREATE PROCEDURE sp_InserirProduto
+    @ID INT,
     @NOME NVARCHAR(100),
     @PRECO DECIMAL(18, 2)
 AS
 BEGIN
-    INSERT INTO servico (nome, preco)
-    VALUES (@NOME, @PRECO);
+    INSERT INTO servico (id, nome, preco)
+    VALUES (@ID, @NOME, @PRECO)
 END
-GO
 
 -- Stored Procedure para Atualizar Produto
 CREATE PROCEDURE sp_AtualizarProduto
@@ -310,7 +310,7 @@ FOR INSERT, UPDATE
 AS
 BEGIN
     -- Verifica se o CPF tem exatamente 11 dígitos numéricos
-    IF EXISTS (SELECT 1 FROM inserted WHERE LEN(cpf) != 11 OR cpf NOT LIKE '%[^0-9]%')
+    IF EXISTS (SELECT 1 FROM inserted WHERE LEN(cpf) != 11)
     BEGIN
         ROLLBACK TRANSACTION;
         RAISERROR ('CPF inválido. Deve ter exatamente 11 dígitos numéricos.', 16, 1);
@@ -334,7 +334,7 @@ FOR INSERT, UPDATE
 AS
 BEGIN
     -- Verifica se o CPF tem exatamente 11 dígitos numéricos
-    IF EXISTS (SELECT 1 FROM inserted WHERE LEN(cpf) != 11 OR cpf NOT LIKE '%[^0-9]%')
+    IF EXISTS (SELECT 1 FROM inserted WHERE LEN(cpf) != 11)
     BEGIN
         ROLLBACK TRANSACTION;
         RAISERROR ('CPF inválido. Deve ter exatamente 11 dígitos numéricos.', 16, 1);
@@ -350,4 +350,5 @@ BEGIN
     END
 END;
 GO
+
 
