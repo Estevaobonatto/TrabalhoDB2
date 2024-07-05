@@ -90,60 +90,264 @@ INSERT INTO horario (id, data_agendamento, horario, cliente_id, servico_id, func
 INSERT INTO horario (id, data_agendamento, horario, cliente_id, servico_id, funcionario_id) VALUES (9, '2024-07-08', '18:00:00', 4, 5, 4);
 INSERT INTO horario (id, data_agendamento, horario, cliente_id, servico_id, funcionario_id) VALUES (10, '2024-07-09', '19:00:00', 5, 1, 5);
 
-CREATE PROCEDURE ListarClientesPorCidade @CidadeId INT
+-- Stored Procedure para inserir cliente
+CREATE PROCEDURE sp_InserirCliente
+    @ID INT,
+    @NOME VARCHAR(255),
+    @CPF CHAR(11),
+    @DATA_NASCIMENTO DATE,
+    @CIDADE_ID INT
 AS
 BEGIN
-    SELECT * FROM cliente WHERE cidade_id = @CidadeId;
-END
+    INSERT INTO cliente (id, nome, cpf, data_nascimento, cidade_id)
+    VALUES (@ID, @NOME, @CPF, @DATA_NASCIMENTO, @CIDADE_ID);
+END;
 GO
 
--- Stored Procedure para Adicionar Novo Serviço
-CREATE PROCEDURE AdicionarServico @Nome VARCHAR(255), @Preco DECIMAL(10, 2), @Duracao TIME
+-- Stored Procedure para atualizar cliente
+CREATE PROCEDURE sp_AtualizarCliente
+    @ID INT,
+    @NOME VARCHAR(255),
+    @CPF CHAR(11),
+    @DATA_NASCIMENTO DATE,
+    @CIDADE_ID INT
 AS
 BEGIN
-    INSERT INTO servico (nome, preco, duracao) VALUES (@Nome, @Preco, @Duracao);
-END
-GO
-
--- Stored Procedure para Atualizar Preço de Serviço
-CREATE PROCEDURE AtualizarPrecoServico @ServicoId INT, @NovoPreco DECIMAL(10, 2)
-AS
-BEGIN
-    UPDATE servico SET preco = @NovoPreco WHERE id = @ServicoId;
-END
-GO
-
--- Trigger para Calcular Idade do Cliente após Inserção
-CREATE TRIGGER CalcularIdadeCliente
-ON cliente
-AFTER INSERT
-AS
-BEGIN
-    DECLARE @DataNascimento DATE, @ClienteId INT, @Idade INT;
-    
-    SELECT @ClienteId = id, @DataNascimento = data_nascimento FROM inserted;
-    
-    SET @Idade = FLOOR(DATEDIFF(DAY, @DataNascimento, GETDATE()) / 365.25);
-    
     UPDATE cliente
-    SET idade = @Idade
-    WHERE id = @ClienteId;
+    SET nome = @NOME, cpf = @CPF, data_nascimento = @DATA_NASCIMENTO, cidade_id = @CIDADE_ID
+    WHERE id = @ID;
+END;
+GO
+
+-- Stored Procedure para excluir cliente
+CREATE PROCEDURE sp_ExcluirCliente
+    @ID INT
+AS
+BEGIN
+    DELETE FROM cliente WHERE id = @ID;
+END;
+GO
+
+-- Stored Procedure para consultar cliente por ID
+CREATE PROCEDURE sp_ConsultarCliente
+    @ID INT
+AS
+BEGIN
+    SELECT id, nome, cpf, data_nascimento, cidade_id
+    FROM cliente
+    WHERE id = @ID;
+END;
+GO
+
+-- Stored Procedure para carregar todos os clientes
+CREATE PROCEDURE sp_CarregarClientes
+AS
+BEGIN
+    SELECT c.id, c.nome, c.cpf, c.data_nascimento, c.cidade_id, ci.nome AS cidade_nome
+    FROM cliente c
+    JOIN cidade ci ON c.cidade_id = ci.id;
+END;
+GO
+
+CREATE PROCEDURE sp_InserirFuncionario
+    @ID INT,
+    @NOME NVARCHAR(100),
+    @CPF NVARCHAR(11),
+    @DATA_NASCIMENTO DATE,
+    @CIDADE_ID INT
+AS
+BEGIN
+    INSERT INTO funcionario (id, nome, cpf, data_nascimento, cidade_id)
+    VALUES (@ID, @NOME, @CPF, @DATA_NASCIMENTO, @CIDADE_ID)
 END
 GO
 
--- Trigger para Atualizar Disponibilidade do Funcionário após Inserção de Horário
-CREATE TRIGGER AtualizarDisponibilidadeFuncionario
-ON horario
-AFTER INSERT
+CREATE PROCEDURE sp_AtualizarFuncionario
+    @ID INT,
+    @NOME NVARCHAR(100),
+    @CPF NVARCHAR(11),
+    @DATA_NASCIMENTO DATE,
+    @CIDADE_ID INT
 AS
 BEGIN
-    DECLARE @FuncionarioId INT, @DataAgendamento DATE, @Horario TIME;
-    
-    SELECT @FuncionarioId = funcionario_id, @DataAgendamento = data_agendamento, @Horario = horario FROM inserted;
-    
-    -- Supõe-se que exista um campo 'disponibilidade' na tabela funcionario para indicar a disponibilidade
     UPDATE funcionario
-    SET disponibilidade = 'Indisponível'
-    WHERE id = @FuncionarioId;
+    SET nome = @NOME, cpf = @CPF, data_nascimento = @DATA_NASCIMENTO, cidade_id = @CIDADE_ID
+    WHERE id = @ID
 END
 GO
+
+CREATE PROCEDURE sp_ExcluirFuncionario
+    @ID INT
+AS
+BEGIN
+    DELETE FROM funcionario WHERE id = @ID
+END
+GO
+
+CREATE PROCEDURE sp_ConsultarFuncionario
+    @ID INT
+AS
+BEGIN
+    SELECT id, nome, cpf, data_nascimento, cidade_id
+    FROM funcionario
+    WHERE id = @ID
+END
+GO
+
+CREATE PROCEDURE sp_CarregarFuncionarios
+AS
+BEGIN
+    SELECT f.id, f.nome, f.cpf, f.data_nascimento, f.cidade_id, ci.nome AS cidade_nome
+    FROM funcionario f
+    JOIN cidade ci ON f.cidade_id = ci.id
+END
+GO
+
+-- Stored Procedure para Inserir Horário
+CREATE PROCEDURE sp_InserirHorario
+    @DATA_AGENDAMENTO DATETIME,
+    @HORARIO TIME,
+    @CLIENTE_ID INT,
+    @SERVICO_ID INT,
+    @FUNCIONARIO_ID INT
+AS
+BEGIN
+    INSERT INTO horario (data_agendamento, horario, cliente_id, servico_id, funcionario_id)
+    VALUES (@DATA_AGENDAMENTO, @HORARIO, @CLIENTE_ID, @SERVICO_ID, @FUNCIONARIO_ID);
+END
+GO
+
+-- Stored Procedure para Atualizar Horário
+CREATE PROCEDURE sp_AtualizarHorario
+    @ID INT,
+    @DATA_AGENDAMENTO DATETIME,
+    @HORARIO TIME,
+    @CLIENTE_ID INT,
+    @SERVICO_ID INT,
+    @FUNCIONARIO_ID INT
+AS
+BEGIN
+    UPDATE horario
+    SET data_agendamento = @DATA_AGENDAMENTO,
+        horario = @HORARIO,
+        cliente_id = @CLIENTE_ID,
+        servico_id = @SERVICO_ID,
+        funcionario_id = @FUNCIONARIO_ID
+    WHERE id = @ID;
+END
+GO
+
+-- Stored Procedure para Excluir Horário
+CREATE PROCEDURE sp_ExcluirHorario
+    @ID INT
+AS
+BEGIN
+    DELETE FROM horario WHERE id = @ID;
+END
+GO
+
+-- Stored Procedure para Consultar Horário
+CREATE PROCEDURE sp_ConsultarHorario
+    @ID INT
+AS
+BEGIN
+    SELECT id, data_agendamento, horario, cliente_id, servico_id, funcionario_id
+    FROM horario
+    WHERE id = @ID;
+END
+GO
+
+-- Stored Procedure para Inserir Produto
+CREATE PROCEDURE sp_InserirProduto
+    @NOME NVARCHAR(100),
+    @PRECO DECIMAL(18, 2)
+AS
+BEGIN
+    INSERT INTO servico (nome, preco)
+    VALUES (@NOME, @PRECO);
+END
+GO
+
+-- Stored Procedure para Atualizar Produto
+CREATE PROCEDURE sp_AtualizarProduto
+    @ID INT,
+    @NOME NVARCHAR(100),
+    @PRECO DECIMAL(18, 2)
+AS
+BEGIN
+    UPDATE servico
+    SET nome = @NOME,
+        preco = @PRECO
+    WHERE id = @ID;
+END
+GO
+
+-- Stored Procedure para Excluir Produto
+CREATE PROCEDURE sp_ExcluirProduto
+    @ID INT
+AS
+BEGIN
+    DELETE FROM horario WHERE servico_id = @ID;
+    DELETE FROM servico WHERE id = @ID;
+END
+GO
+
+-- Stored Procedure para Consultar Produto
+CREATE PROCEDURE sp_ConsultarProduto
+    @ID INT
+AS
+BEGIN
+    SELECT id, nome, preco
+    FROM servico
+    WHERE id = @ID;
+END
+GO
+
+-- Criar novo trigger na tabela cliente
+CREATE TRIGGER trg_VerificarFormatoCPFEDateCliente
+ON cliente
+FOR INSERT, UPDATE
+AS
+BEGIN
+    -- Verifica se o CPF tem exatamente 11 dígitos numéricos
+    IF EXISTS (SELECT 1 FROM inserted WHERE LEN(cpf) != 11 OR cpf NOT LIKE '%[^0-9]%')
+    BEGIN
+        ROLLBACK TRANSACTION;
+        RAISERROR ('CPF inválido. Deve ter exatamente 11 dígitos numéricos.', 16, 1);
+        RETURN;
+    END
+
+    -- Verifica se a data de nascimento não é maior que 01/01/2017
+    IF EXISTS (SELECT 1 FROM inserted WHERE data_nascimento > '2017-01-01')
+    BEGIN
+        ROLLBACK TRANSACTION;
+        RAISERROR ('Data de nascimento inválida. Deve ser menor ou igual a 01/01/2017.', 16, 1);
+        RETURN;
+    END
+END;
+GO
+
+-- Criar novo trigger na tabela funcionario
+CREATE TRIGGER trg_VerificarFormatoCPFEDateFuncionario
+ON funcionario
+FOR INSERT, UPDATE
+AS
+BEGIN
+    -- Verifica se o CPF tem exatamente 11 dígitos numéricos
+    IF EXISTS (SELECT 1 FROM inserted WHERE LEN(cpf) != 11 OR cpf NOT LIKE '%[^0-9]%')
+    BEGIN
+        ROLLBACK TRANSACTION;
+        RAISERROR ('CPF inválido. Deve ter exatamente 11 dígitos numéricos.', 16, 1);
+        RETURN;
+    END
+
+    -- Verifica se a data de nascimento não é maior que 01/01/2017
+    IF EXISTS (SELECT 1 FROM inserted WHERE data_nascimento > '2017-01-01')
+    BEGIN
+        ROLLBACK TRANSACTION;
+        RAISERROR ('Data de nascimento inválida. Deve ser menor ou igual a 01/01/2017.', 16, 1);
+        RETURN;
+    END
+END;
+GO
+
