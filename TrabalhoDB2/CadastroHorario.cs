@@ -338,6 +338,26 @@ namespace TrabalhoDB2
             CarregarHorarios();
         }
 
+        private void txtId_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dtpHorarios_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
         private void CadastroHorario_Load(object sender, EventArgs e)
         {
             // TODO: This line of code loads data into the 'salaoAppBanco.cliente' table. You can move, or remove it, as needed.
