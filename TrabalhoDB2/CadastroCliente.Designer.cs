@@ -111,9 +111,9 @@
             this.label6.Location = new System.Drawing.Point(293, 142);
             this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(91, 13);
+            this.label6.Size = new System.Drawing.Size(40, 13);
             this.label6.TabIndex = 50;
-            this.label6.Text = "Cidade (Opcional)";
+            this.label6.Text = "Cidade";
             // 
             // label5
             // 
