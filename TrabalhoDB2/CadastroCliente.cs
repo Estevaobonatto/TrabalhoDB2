@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.Sql;
-using System.Data.SqlClient;
 
 namespace TrabalhoDB2
 {
@@ -30,7 +29,6 @@ namespace TrabalhoDB2
             mtbCpf.Text = string.Empty;
             dtpDataNasc.Value = DateTime.Now;
             cbCidade.SelectedIndex = -1;
-            txtId.Text = string.Empty;
         }
 
         private void CarregarCidades()
@@ -72,7 +70,6 @@ namespace TrabalhoDB2
         private void btnIncluir_Click(object sender, EventArgs e)
         {
             SqlConnection conn = new SqlConnection("Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;");
-            string sql = "INSERT INTO cliente (id, nome, cpf, data_nascimento, cidade_id) VALUES (@ID, @NOME, @CPF, @DATA_NASCIMENTO, @CIDADE_ID)";
 
             string LimparCPF(string cpf)
             {
@@ -83,7 +80,10 @@ namespace TrabalhoDB2
 
             try
             {
-                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlCommand cmd = new SqlCommand("sp_InserirCliente", conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
 
                 Random random = new Random();
                 int idRandom = random.Next(0, 99999);
@@ -95,34 +95,33 @@ namespace TrabalhoDB2
                 cmd.Parameters.AddWithValue("@CIDADE_ID", (int)cbCidade.SelectedValue);
 
                 conn.Open();
-
                 cmd.ExecuteNonQuery();
-
                 conn.Close();
 
                 MessageBox.Show("Registro Incluido com sucesso!");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Ocorreu um erro de conexão com o banco de dados. " + ex.Message);
             }
             finally
             {
-                conn.Close(); 
+                conn.Close();
             }
+            LimparCampos();
+            CarregarClientes();
         }
 
         private void CarregarClientes()
         {
             string connectionString = "Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;";
-            string query = @"
-            SELECT c.id, c.nome, c.cpf, c.data_nascimento, c.cidade_id, ci.nome AS cidade_nome
-            FROM cliente c
-            JOIN cidade ci ON c.cidade_id = ci.id";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand("sp_CarregarClientes", conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
 
                 try
                 {
@@ -168,7 +167,6 @@ namespace TrabalhoDB2
         private void btnAlterar_Click(object sender, EventArgs e)
         {
             SqlConnection conn = new SqlConnection("Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;");
-            string sql = "UPDATE cliente SET nome = @NOME, cpf = @CPF, data_nascimento = @DATA_NASCIMENTO, cidade_id = @CIDADE_ID WHERE id = @ID";
 
             string LimparCPF(string cpf)
             {
@@ -179,18 +177,19 @@ namespace TrabalhoDB2
 
             try
             {
-                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlCommand cmd = new SqlCommand("sp_AtualizarCliente", conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
 
-                cmd.Parameters.AddWithValue("@ID", int.Parse(txtId.Text));  // Aqui assumimos que o ID do cliente será inserido em um campo de texto chamado txtId
+                cmd.Parameters.AddWithValue("@ID", int.Parse(txtId.Text));
                 cmd.Parameters.AddWithValue("@NOME", txtNome.Text);
                 cmd.Parameters.AddWithValue("@CPF", mtbCpf.Text);
                 cmd.Parameters.AddWithValue("@DATA_NASCIMENTO", dtpDataNasc.Value);
                 cmd.Parameters.AddWithValue("@CIDADE_ID", (int)cbCidade.SelectedValue);
 
                 conn.Open();
-
                 cmd.ExecuteNonQuery();
-
                 conn.Close();
 
                 MessageBox.Show("Registro Alterado com sucesso!");
@@ -213,11 +212,13 @@ namespace TrabalhoDB2
             if (int.TryParse(txtId.Text, out clienteId))
             {
                 string connectionString = "Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;";
-                string query = "DELETE FROM cliente WHERE id = @ID";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand(query, conn);
+                    SqlCommand cmd = new SqlCommand("sp_ExcluirCliente", conn)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
                     cmd.Parameters.AddWithValue("@ID", clienteId);
 
                     try
@@ -239,27 +240,32 @@ namespace TrabalhoDB2
                     {
                         MessageBox.Show("Erro ao excluir cliente: " + ex.Message);
                     }
+                    finally
+                    {
+                        conn.Close();
+                    }
                 }
             }
             else
             {
                 MessageBox.Show("Por favor, insira um ID de cliente válido.");
             }
-
             CarregarClientes();
         }
 
-    private void btnConsultar_Click(object sender, EventArgs e)
+        private void btnConsultar_Click(object sender, EventArgs e)
         {
             int clienteId;
             if (int.TryParse(txtId.Text, out clienteId))
             {
                 string connectionString = "Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;";
-                string query = "SELECT id, nome, cpf, data_nascimento, cidade_id FROM cliente WHERE id = @ID";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand(query, conn);
+                    SqlCommand cmd = new SqlCommand("sp_ConsultarCliente", conn)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
                     cmd.Parameters.AddWithValue("@ID", clienteId);
 
                     try
@@ -269,7 +275,6 @@ namespace TrabalhoDB2
 
                         if (reader.Read())
                         {
-                            txtId.Text = reader["id"].ToString();
                             txtNome.Text = reader["nome"].ToString();
                             mtbCpf.Text = reader["cpf"].ToString();
                             dtpDataNasc.Value = DateTime.Parse(reader["data_nascimento"].ToString());
@@ -278,11 +283,16 @@ namespace TrabalhoDB2
                         else
                         {
                             MessageBox.Show("Cliente não encontrado.");
+                            LimparCampos();
                         }
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show("Erro ao consultar cliente: " + ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
                     }
                 }
             }
@@ -290,10 +300,10 @@ namespace TrabalhoDB2
             {
                 MessageBox.Show("Por favor, insira um ID de cliente válido.");
             }
-            CarregarClientes();
         }
+    
 
-        private void dtpDataNasc_ValueChanged(object sender, EventArgs e)
+    private void dtpDataNasc_ValueChanged(object sender, EventArgs e)
         {
 
         }

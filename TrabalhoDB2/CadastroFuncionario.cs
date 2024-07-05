@@ -65,14 +65,13 @@ namespace TrabalhoDB2
         private void CarregarFuncionarios()
         {
             string connectionString = "Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;";
-            string query = @"
-            SELECT f.id, f.nome, f.cpf, f.data_nascimento, f.cidade_id, ci.nome AS cidade_nome
-            FROM funcionario f
-            JOIN cidade ci ON f.cidade_id = ci.id";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand("sp_CarregarFuncionarios", conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
 
                 try
                 {
@@ -117,9 +116,7 @@ namespace TrabalhoDB2
 
         private void btnIncluir_Click(object sender, EventArgs e)
         {
-
             SqlConnection conn = new SqlConnection("Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;");
-            string sql = "INSERT INTO funcionario (id, nome, cpf, data_nascimento, cidade_id) VALUES (@ID, @NOME, @CPF, @DATA_NASCIMENTO, @CIDADE_ID)";
 
             string LimparCPF(string cpf)
             {
@@ -130,9 +127,10 @@ namespace TrabalhoDB2
 
             try
             {
-
-
-                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlCommand cmd = new SqlCommand("sp_InserirFuncionario", conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
 
                 Random random = new Random();
                 int idRandom = random.Next(0, 99999);
@@ -144,9 +142,7 @@ namespace TrabalhoDB2
                 cmd.Parameters.AddWithValue("@CIDADE_ID", (int)cbCidade.SelectedValue);
 
                 conn.Open();
-
                 cmd.ExecuteNonQuery();
-
                 conn.Close();
 
                 MessageBox.Show("Registro Incluído com sucesso!");
@@ -166,7 +162,6 @@ namespace TrabalhoDB2
         private void btnAlterar_Click(object sender, EventArgs e)
         {
             SqlConnection conn = new SqlConnection("Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;");
-            string sql = "UPDATE funcionario SET nome = @NOME, cpf = @CPF, data_nascimento = @DATA_NASCIMENTO, cidade_id = @CIDADE_ID WHERE id = @ID";
 
             string LimparCPF(string cpf)
             {
@@ -177,7 +172,10 @@ namespace TrabalhoDB2
 
             try
             {
-                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlCommand cmd = new SqlCommand("sp_AtualizarFuncionario", conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
 
                 cmd.Parameters.AddWithValue("@ID", int.Parse(txtId.Text));
                 cmd.Parameters.AddWithValue("@NOME", txtNome.Text);
@@ -186,9 +184,7 @@ namespace TrabalhoDB2
                 cmd.Parameters.AddWithValue("@CIDADE_ID", (int)cbCidade.SelectedValue);
 
                 conn.Open();
-
                 cmd.ExecuteNonQuery();
-
                 conn.Close();
 
                 MessageBox.Show("Registro Alterado com sucesso!");
@@ -211,11 +207,13 @@ namespace TrabalhoDB2
             if (int.TryParse(txtId.Text, out funcionarioId))
             {
                 string connectionString = "Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;";
-                string query = "DELETE FROM funcionario WHERE id = @ID";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand(query, conn);
+                    SqlCommand cmd = new SqlCommand("sp_ExcluirFuncionario", conn)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
                     cmd.Parameters.AddWithValue("@ID", funcionarioId);
 
                     try
@@ -227,7 +225,6 @@ namespace TrabalhoDB2
                         {
                             MessageBox.Show("Funcionário excluído com sucesso.");
                             LimparCampos();
-                            CarregarFuncionarios();
                         }
                         else
                         {
@@ -252,11 +249,13 @@ namespace TrabalhoDB2
             if (int.TryParse(txtId.Text, out funcionarioId))
             {
                 string connectionString = "Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;";
-                string query = "SELECT id, nome, cpf, data_nascimento, cidade_id FROM funcionario WHERE id = @ID";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand(query, conn);
+                    SqlCommand cmd = new SqlCommand("sp_ConsultarFuncionario", conn)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
                     cmd.Parameters.AddWithValue("@ID", funcionarioId);
 
                     try
@@ -287,11 +286,6 @@ namespace TrabalhoDB2
             {
                 MessageBox.Show("Por favor, insira um ID de funcionário válido.");
             }
-        }
-
-        private void btnLimpar_Click(object sender, EventArgs e)
-        {
-            LimparCampos();
         }
 
         private void cbCidade_SelectedIndexChanged(object sender, EventArgs e)

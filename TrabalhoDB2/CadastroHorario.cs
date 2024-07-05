@@ -165,7 +165,6 @@ namespace TrabalhoDB2
                     DataTable dt = new DataTable();
                     dt.Load(reader);
 
-                    // Configurar colunas da DataGridView
                     dgvHorarios.AutoGenerateColumns = false;
                     dgvHorarios.Columns.Clear();
 
@@ -188,61 +187,31 @@ namespace TrabalhoDB2
             }
         }
 
-
-        private void txtId_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dtpHorarios_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnIncluir_Click(object sender, EventArgs e)
         {
-            SqlConnection conn = new SqlConnection("Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;");
-            string sql = "INSERT INTO horario (id, data_agendamento, horario, cliente_id, servico_id, funcionario_id) VALUES (@ID, @DATA_AGENDAMENTO, @HORARIO, @CLIENTE_ID, @SERVICO_ID, @FUNCIONARIO_ID)";
+            string connectionString = "Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;";
 
-            try
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlCommand cmd = new SqlCommand("sp_InserirHorario", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                Random random = new Random();
-                int idRandom = random.Next(0, 99999);
-
-                cmd.Parameters.AddWithValue("@ID", idRandom);
                 cmd.Parameters.AddWithValue("@DATA_AGENDAMENTO", dtpDataAgendamento.Value);
                 cmd.Parameters.AddWithValue("@HORARIO", dtpHorario.Value.TimeOfDay);
                 cmd.Parameters.AddWithValue("@CLIENTE_ID", (int)cbCliente.SelectedValue);
                 cmd.Parameters.AddWithValue("@SERVICO_ID", (int)cbProduto.SelectedValue);
                 cmd.Parameters.AddWithValue("@FUNCIONARIO_ID", (int)cbFuncionario.SelectedValue);
 
-                conn.Open();
-
-                cmd.ExecuteNonQuery();
-
-                conn.Close();
-
-                MessageBox.Show("Horário incluído com sucesso!");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Ocorreu um erro de conexão com o banco de dados. " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Horário incluído com sucesso!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao incluir horário: " + ex.Message);
+                }
             }
 
             LimparCampos();
@@ -251,12 +220,12 @@ namespace TrabalhoDB2
 
         private void btnAlterar_Click(object sender, EventArgs e)
         {
-            SqlConnection conn = new SqlConnection("Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;");
-            string sql = "UPDATE horario SET data_agendamento = @DATA_AGENDAMENTO, horario = @HORARIO, cliente_id = @CLIENTE_ID, servico_id = @SERVICO_ID, funcionario_id = @FUNCIONARIO_ID WHERE id = @ID";
+            string connectionString = "Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;";
 
-            try
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlCommand cmd = new SqlCommand("sp_AtualizarHorario", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@ID", int.Parse(txtId.Text));
                 cmd.Parameters.AddWithValue("@DATA_AGENDAMENTO", dtpDataAgendamento.Value);
@@ -265,21 +234,16 @@ namespace TrabalhoDB2
                 cmd.Parameters.AddWithValue("@SERVICO_ID", (int)cbProduto.SelectedValue);
                 cmd.Parameters.AddWithValue("@FUNCIONARIO_ID", (int)cbFuncionario.SelectedValue);
 
-                conn.Open();
-
-                cmd.ExecuteNonQuery();
-
-                conn.Close();
-
-                MessageBox.Show("Horário alterado com sucesso!");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Ocorreu um erro de conexão com o banco de dados. " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Horário alterado com sucesso!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao alterar horário: " + ex.Message);
+                }
             }
 
             LimparCampos();
@@ -292,11 +256,11 @@ namespace TrabalhoDB2
             if (int.TryParse(txtId.Text, out horarioId))
             {
                 string connectionString = "Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;";
-                string query = "DELETE FROM horario WHERE id = @ID";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand(query, conn);
+                    SqlCommand cmd = new SqlCommand("sp_ExcluirHorario", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ID", horarioId);
 
                     try
@@ -334,11 +298,11 @@ namespace TrabalhoDB2
             if (int.TryParse(txtId.Text, out horarioId))
             {
                 string connectionString = "Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;";
-                string query = "SELECT id, data_agendamento, horario, cliente_id, servico_id, funcionario_id FROM horario WHERE id = @ID";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand(query, conn);
+                    SqlCommand cmd = new SqlCommand("sp_ConsultarHorario", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ID", horarioId);
 
                     try
@@ -370,23 +334,8 @@ namespace TrabalhoDB2
             {
                 MessageBox.Show("Por favor, insira um ID de horário válido.");
             }
+
             CarregarHorarios();
-        }
-
-
-        private void dgvHorarios_SelectionChanged(object sender, EventArgs e)
-        {
-            if (dgvHorarios.SelectedRows.Count > 0)
-            {
-                DataGridViewRow selectedRow = dgvHorarios.SelectedRows[0];
-
-                txtId.Text = selectedRow.Cells["id"].Value.ToString();
-                dtpDataAgendamento.Value = DateTime.Parse(selectedRow.Cells["data_agendamento"].Value.ToString());
-                dtpHorario.Value = DateTime.Parse(selectedRow.Cells["horario"].Value.ToString());
-                cbCliente.SelectedValue = selectedRow.Cells["cliente_id"].Value;
-                cbProduto.SelectedValue = selectedRow.Cells["servico_id"].Value;
-                cbFuncionario.SelectedValue = selectedRow.Cells["funcionario_id"].Value;
-            }
         }
 
         private void CadastroHorario_Load(object sender, EventArgs e)

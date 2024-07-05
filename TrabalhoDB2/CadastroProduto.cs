@@ -62,33 +62,26 @@ namespace TrabalhoDB2
 
         private void btnIncluir_Click(object sender, EventArgs e)
         {
-            SqlConnection conn = new SqlConnection("Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;");
-            string sql = "INSERT INTO servico (id, nome, preco) VALUES (@ID, @NOME, @PRECO)";
+            string connectionString = "Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;";
 
-            try
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlCommand cmd = new SqlCommand("sp_InserirProduto", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                Random random = new Random();
-                int idRandom = random.Next(0, 99999);
-
-                cmd.Parameters.AddWithValue("@ID", idRandom);
                 cmd.Parameters.AddWithValue("@NOME", txtNome.Text);
                 cmd.Parameters.AddWithValue("@PRECO", decimal.Parse(mtbPreco.Text));
 
-                conn.Open();
-                cmd.ExecuteNonQuery();
-                conn.Close();
-
-                MessageBox.Show("Produto incluído com sucesso!");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Ocorreu um erro de conexão com o banco de dados. " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Produto incluído com sucesso!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao incluir produto: " + ex.Message);
+                }
             }
 
             LimparCampos();
@@ -97,30 +90,27 @@ namespace TrabalhoDB2
 
         private void btnAlterar_Click(object sender, EventArgs e)
         {
-            SqlConnection conn = new SqlConnection("Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;");
-            string sql = "UPDATE servico SET nome = @NOME, preco = @PRECO WHERE id = @ID";
+            string connectionString = "Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;";
 
-            try
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlCommand cmd = new SqlCommand("sp_AtualizarProduto", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@ID", int.Parse(txtId.Text));
                 cmd.Parameters.AddWithValue("@NOME", txtNome.Text);
                 cmd.Parameters.AddWithValue("@PRECO", decimal.Parse(mtbPreco.Text));
 
-                conn.Open();
-                cmd.ExecuteNonQuery();
-                conn.Close();
-
-                MessageBox.Show("Produto alterado com sucesso!");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Ocorreu um erro de conexão com o banco de dados. " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Produto alterado com sucesso!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao alterar produto: " + ex.Message);
+                }
             }
 
             LimparCampos();
@@ -136,21 +126,14 @@ namespace TrabalhoDB2
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    conn.Open();
-
-                    SqlTransaction transaction = conn.BeginTransaction();
+                    SqlCommand cmd = new SqlCommand("sp_ExcluirProduto", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ID", produtoId);
 
                     try
                     {
-                        string deleteHorarioQuery = "DELETE FROM horario WHERE servico_id = @ID";
-                        SqlCommand deleteHorarioCmd = new SqlCommand(deleteHorarioQuery, conn, transaction);
-                        deleteHorarioCmd.Parameters.AddWithValue("@ID", produtoId);
-                        deleteHorarioCmd.ExecuteNonQuery();
-
-                        string deleteServicoQuery = "DELETE FROM servico WHERE id = @ID";
-                        SqlCommand deleteServicoCmd = new SqlCommand(deleteServicoQuery, conn, transaction);
-                        deleteServicoCmd.Parameters.AddWithValue("@ID", produtoId);
-                        int rowsAffected = deleteServicoCmd.ExecuteNonQuery();
+                        conn.Open();
+                        int rowsAffected = cmd.ExecuteNonQuery();
 
                         if (rowsAffected > 0)
                         {
@@ -161,12 +144,9 @@ namespace TrabalhoDB2
                         {
                             MessageBox.Show("Produto não encontrado.");
                         }
-
-                        transaction.Commit();
                     }
                     catch (Exception ex)
                     {
-                        transaction.Rollback();
                         MessageBox.Show("Erro ao excluir produto: " + ex.Message);
                     }
                 }
@@ -179,18 +159,17 @@ namespace TrabalhoDB2
             CarregarProdutos();
         }
 
-
         private void btnConsultar_Click(object sender, EventArgs e)
         {
             int produtoId;
             if (int.TryParse(txtId.Text, out produtoId))
             {
                 string connectionString = "Data Source=localhost\\SQLDATABASE;Initial Catalog=SalaoAppBanco;Integrated Security=True;Encrypt=False;";
-                string query = "SELECT id, nome, preco FROM servico WHERE id = @ID";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand(query, conn);
+                    SqlCommand cmd = new SqlCommand("sp_ConsultarProduto", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ID", produtoId);
 
                     try
