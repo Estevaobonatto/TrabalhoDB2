@@ -152,16 +152,7 @@ namespace TrabalhoDB2
 
         private void dtvClientes_SelectionChanged_1(object sender, EventArgs e)
         {
-            if (dtvClientes.SelectedRows.Count > 0)
-            {
-                DataGridViewRow selectedRow = dtvClientes.SelectedRows[0];
 
-                txtId.Text = selectedRow.Cells["id"].Value.ToString();
-                txtNome.Text = selectedRow.Cells["nome"].Value.ToString();
-                mtbCpf.Text = selectedRow.Cells["cpf"].Value.ToString();
-                dtpDataNasc.Value = DateTime.Parse(selectedRow.Cells["data_nascimento"].Value.ToString());
-                cbCidade.SelectedValue = selectedRow.Cells["cidade_id"].Value;
-            }
         }
 
         private void btnAlterar_Click(object sender, EventArgs e)
@@ -330,9 +321,7 @@ namespace TrabalhoDB2
 
         private void CadastroCliente_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'salaoAppBanco.cidade' table. You can move, or remove it, as needed.
             this.cidadeTableAdapter.Fill(this.salaoAppBanco.cidade);
-            // TODO: This line of code loads data into the 'salaoAppBanco.cliente' table. You can move, or remove it, as needed.
             this.clienteTableAdapter.Fill(this.salaoAppBanco.cliente);
 
         }

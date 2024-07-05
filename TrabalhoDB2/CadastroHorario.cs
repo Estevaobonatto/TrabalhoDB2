@@ -196,12 +196,10 @@ namespace TrabalhoDB2
                 SqlCommand cmd = new SqlCommand("sp_InserirHorario", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                // Gerar um ID aleatório entre 0 e 99999
                 Random random = new Random();
                 int idRandom = random.Next(0, 99999);
 
-                // Adicionar parâmetros
-                cmd.Parameters.AddWithValue("@ID", idRandom); // Adiciona o ID aleatório
+                cmd.Parameters.AddWithValue("@ID", idRandom);     
                 cmd.Parameters.AddWithValue("@DATA_AGENDAMENTO", dtpDataAgendamento.Value);
                 cmd.Parameters.AddWithValue("@HORARIO", dtpHorario.Value.TimeOfDay);
                 cmd.Parameters.AddWithValue("@CLIENTE_ID", (int)cbCliente.SelectedValue);
@@ -366,14 +364,10 @@ namespace TrabalhoDB2
 
         private void CadastroHorario_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'salaoAppBanco.cliente' table. You can move, or remove it, as needed.
             this.clienteTableAdapter.Fill(this.salaoAppBanco.cliente);
-            // TODO: This line of code loads data into the 'salaoAppBanco.cidade' table. You can move, or remove it, as needed.
-
 
         }
 
-        // Classes auxiliares para carregar dados nas comboboxes
         public class Cliente
         {
             public int Id { get; set; }

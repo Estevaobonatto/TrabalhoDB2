@@ -102,16 +102,7 @@ namespace TrabalhoDB2
 
         private void dtvFuncionarios_SelectionChanged(object sender, EventArgs e)
         {
-            if (dtvFuncionarios.SelectedRows.Count > 0)
-            {
-                DataGridViewRow selectedRow = dtvFuncionarios.SelectedRows[0];
 
-                txtId.Text = selectedRow.Cells["id"].Value.ToString();
-                txtNome.Text = selectedRow.Cells["nome"].Value.ToString();
-                mtbCpf.Text = selectedRow.Cells["cpf"].Value.ToString();
-                dtpDataNasc.Value = DateTime.Parse(selectedRow.Cells["data_nascimento"].Value.ToString());
-                cbCidade.SelectedValue = selectedRow.Cells["cidade_id"].Value;
-            }
         }
 
         private void btnIncluir_Click(object sender, EventArgs e)
@@ -290,27 +281,22 @@ namespace TrabalhoDB2
 
         private void cbCidade_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Seu código aqui
         }
 
         private void dtpDataNasc_ValueChanged(object sender, EventArgs e)
         {
-            // Seu código aqui
         }
 
         private void mtbCpf_MaskInputRejected(object sender, EventArgs e)
         {
-            // Seu código aqui
         }
 
         private void txtNome_TextChanged(object sender, EventArgs e)
         {
-            // Seu código aqui
         }
 
         private void txtId_TextChanged(object sender, EventArgs e)
         {
-            // Seu código aqui
         }
 
         private void CadastroFuncionario_Load(object sender, EventArgs e)
