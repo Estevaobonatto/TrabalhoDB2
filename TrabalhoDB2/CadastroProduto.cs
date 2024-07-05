@@ -69,6 +69,13 @@ namespace TrabalhoDB2
                 SqlCommand cmd = new SqlCommand("sp_InserirProduto", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
+
+                // Gerar um ID aleatório entre 0 e 99999
+                Random random = new Random();
+                int idRandom = random.Next(0, 99999);
+
+                // Adicionar parâmetros
+                cmd.Parameters.AddWithValue("@ID", idRandom); // Adiciona o ID aleatório
                 cmd.Parameters.AddWithValue("@NOME", txtNome.Text);
                 cmd.Parameters.AddWithValue("@PRECO", decimal.Parse(mtbPreco.Text));
 

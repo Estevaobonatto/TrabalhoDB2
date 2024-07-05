@@ -196,6 +196,12 @@ namespace TrabalhoDB2
                 SqlCommand cmd = new SqlCommand("sp_InserirHorario", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
+                // Gerar um ID aleatório entre 0 e 99999
+                Random random = new Random();
+                int idRandom = random.Next(0, 99999);
+
+                // Adicionar parâmetros
+                cmd.Parameters.AddWithValue("@ID", idRandom); // Adiciona o ID aleatório
                 cmd.Parameters.AddWithValue("@DATA_AGENDAMENTO", dtpDataAgendamento.Value);
                 cmd.Parameters.AddWithValue("@HORARIO", dtpHorario.Value.TimeOfDay);
                 cmd.Parameters.AddWithValue("@CLIENTE_ID", (int)cbCliente.SelectedValue);
